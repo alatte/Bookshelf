@@ -58,10 +58,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Bookshelf.Business\Bookshelf.Business.csproj">
-      <Project>{2e57ecba-acab-4e51-9eb3-3560cbcddb4c}</Project>
-      <Name>Bookshelf.Business</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Bookshelf.Data\Bookshelf.Data.csproj">
       <Project>{a4a1c9c6-db54-48a2-b9a7-5f897d32e1a9}</Project>
       <Name>Bookshelf.Data</Name>

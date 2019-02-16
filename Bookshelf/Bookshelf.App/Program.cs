@@ -5,25 +5,27 @@ using System.Text;
 using System.Threading.Tasks;
 using Bookshelf.Data;
 using Bookshelf.Data.Entity;
-using Bookshelf.Business;
 
 namespace Bookshelf.App
 {
     class Program
     {
-        static BookHelper BookHelper = new BookHelper(new Repository());
-       
+        static Repository<Book> BookRepo = new Repository<Book>();
+        static Repository<Author> AuthorRepo = new Repository<Author>();
+
         static void Main(string[] args)
         {
-            BookHelper.AddAuthorForBook(BookHelper.AddBook("Harry Potter and the Deathly Hallows", "Rosmen", "Fantasy").Book_ID, 
-                                                           "Joahn", "Roaling");
+            BookRepo.AddAuthorForBook(BookRepo.Add(new Book { Title = "Harry Potter and the Deathly Hallows", Publisher = "Rosmen", Category = "Fantasy" }), AuthorRepo.Add(new Author { Name = "Joahn", Surname = "Roaling" })); 
+
             WriteBooks();
 
-            BookHelper.EditBook(BookHelper.GetBook("Harry Potter and the Deathly Hallows"), 
-                                                   "Harry Potter and the Prisoner of Azkaban", "Rosmen", "Fantasy");
+            Book book = BookRepo.GetBookByTitle("Harry Potter and the Deathly Hallows");
+            book.Title = "Harry Potter and the Prisoner of Azkaban";
+            BookRepo.Update(book);
+
             WriteBooks();
 
-            BookHelper.DeleteBook(BookHelper.GetBook("Harry Potter and the Prisoner of Azkaban").Book_ID);
+            BookRepo.Delete(BookRepo.GetBookByTitle("Harry Potter and the Prisoner of Azkaban"));
             WriteBooks();
 
             Console.ReadKey();
@@ -31,12 +33,10 @@ namespace Bookshelf.App
 
         static void WriteBooks()
         {
-            AuthorHelper AuthorHelper = new AuthorHelper(new Repository());
-
-            foreach (Book b in BookHelper.GetBooks())
+            foreach (Book b in BookRepo.Books)
             {
                 Console.Write($"\"{b.Title}\" - ");
-                foreach (Author a in AuthorHelper.GetAuthorsByBook(b.Book_ID))
+                foreach (Author a in AuthorRepo.GetAuthorsByBook(b.Book_ID))
                     Console.WriteLine($"{a.Name} {a.Surname};");
             }
             Console.WriteLine(new string('=', 20));
