@@ -15,11 +15,17 @@ namespace Bookshelf.App
 
         static void Main(string[] args)
         {
-            BookRepo.AddAuthorForBook(BookRepo.Add(new Book { Title = "Harry Potter and the Deathly Hallows", Publisher = "Rosmen", Category = "Fantasy" }), AuthorRepo.Add(new Author { Name = "Joahn", Surname = "Roaling" })); 
+            Book book;
+            Author author;
+            book = BookRepo.Add(new Book { Title = "Harry Potter and the Deathly Hallows", Publisher = "Rosmen", Category = "Fantasy" });
+            BookRepo.Add(new Book { Title = "Anna Dmitrieva and the Fucking Diploma", Publisher = "Rosmen", Category = "Fantasy" }).Authors.Add(new Author { Name = "Anna", Surname = "Dmitrieva"});
+            author = AuthorRepo.Add(author = new Author { Name = "Joahn", Surname = "Roaling" });
+            author.Books.Add(book);
+            book.Authors.Add(author);
 
             WriteBooks();
 
-            Book book = BookRepo.GetBookByTitle("Harry Potter and the Deathly Hallows");
+            book = BookRepo.GetBookByTitle("Harry Potter and the Deathly Hallows");
             book.Title = "Harry Potter and the Prisoner of Azkaban";
             BookRepo.Update(book);
 
@@ -36,7 +42,7 @@ namespace Bookshelf.App
             foreach (Book b in BookRepo.Books)
             {
                 Console.Write($"\"{b.Title}\" - ");
-                foreach (Author a in AuthorRepo.GetAuthorsByBook(b.Book_ID))
+                foreach (Author a in b.Authors)
                     Console.WriteLine($"{a.Name} {a.Surname};");
             }
             Console.WriteLine(new string('=', 20));

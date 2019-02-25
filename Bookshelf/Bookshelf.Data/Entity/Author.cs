@@ -1,34 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Bookshelf.Data.Entity
 {
     public class Author : Entity
     {
-        [Key]
-        public int Author_ID { get; set; }
+        public string Name;
+        public string Surname;
+        public List<Book> Books;       
 
-        private string name;
-        private string surname;
-
-        public string Name
+        public Author()
         {
-            get { return name; }
-            set
-            {
-                name = value;
-                OnPropertyChanged("Name" +
-                    "");
-            }
-        }
-
-        public string Surname
-        {
-            get { return surname; }
-            set
-            {
-                surname = value;
-                OnPropertyChanged("Surname");
-            }
+            Id = Guid.NewGuid();
+            Books = new List<Book>();
         }
     }
 }

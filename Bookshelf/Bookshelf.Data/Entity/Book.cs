@@ -1,44 +1,20 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Bookshelf.Data.Entity
 {
     public class Book : Entity
     {
-        [Key]
-        public int Book_ID { get; set; }
+        public string Title;
+        public string Publisher;
+        public string Category;
+        public List<Author> Authors;
 
-        private string title;
-        private string publisher;
-        private string category;
-
-        public string Title
+        public Book()
         {
-            get { return title; }
-            set
-            {
-                title = value;
-                OnPropertyChanged("Title");
-            }
-        }
-
-        public string Publisher
-        {
-            get { return publisher; }
-            set
-            {
-                publisher = value;
-                OnPropertyChanged("Publisher");
-            }
-        }
-
-        public string Category
-        {
-            get { return category; }
-            set
-            {
-                category = value;
-                OnPropertyChanged("Category");
-            }
+            Id = Guid.NewGuid();
+            Authors = new List<Author>();
         }
     }
 }

@@ -24,16 +24,8 @@ namespace Bookshelf.Data
             }
         }
 
-        public IEnumerable<Book_Author> Books_Authors
-        {
-            get
-            {
-                return context.Books_Authors.ToList();
-            }
-        }
-
         public T Add(T entity)
-        {
+        {           
             this.context.Set<T>().Add(entity);
             SaveChanges();
             return entity;
@@ -61,21 +53,9 @@ namespace Bookshelf.Data
             SaveChanges();
         }
 
-        public void AddAuthorForBook(Book book, Author author)
-        {
-            this.context.Books_Authors.Add(new Book_Author { Book_ID = book.Book_ID, Author_ID = author.Author_ID });
-            SaveChanges();
-        }
-
         public Book GetBookByTitle(string title)
         {
             return this.context.Books.ToList().First(x => x.Title == title);
-        }
-
-        public IEnumerable<Author> GetAuthorsByBook(int book_id)
-        {
-            var authorsSelected = (from ba in context.Books_Authors where ba.Book_ID == book_id select ba.Author_ID).ToList();
-            return from a in context.Authors where authorsSelected.Contains(a.Author_ID) select a;
         }
     }
 }
